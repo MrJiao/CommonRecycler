@@ -1,4 +1,4 @@
-package jackson.com.commonrecycler.entity;
+package jackson.com.commonrecycler.dragrecycler.entity;
 
 import jackson.com.commonrecycler.R;
 import jackson.com.commonrecyclerlib.CommonEntity;

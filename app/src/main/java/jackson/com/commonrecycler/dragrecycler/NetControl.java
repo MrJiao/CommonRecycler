@@ -1,9 +1,7 @@
 package jackson.com.commonrecycler.dragrecycler;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import jackson.com.commonrecycler.entity.OtherTitleEntity;
 import jackson.com.commonrecyclerlib.CommonEntity;
 
 /**

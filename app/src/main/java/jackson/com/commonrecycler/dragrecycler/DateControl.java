@@ -5,9 +5,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import jackson.com.commonrecycler.entity.MyItemEntity;
-import jackson.com.commonrecycler.entity.MyTitleEntity;
-import jackson.com.commonrecycler.entity.OtherTitleEntity;
+import jackson.com.commonrecycler.dragrecycler.entity.MyItemEntity;
+import jackson.com.commonrecycler.dragrecycler.entity.MyTitleEntity;
+import jackson.com.commonrecycler.dragrecycler.entity.OtherTitleEntity;
 import jackson.com.commonrecyclerlib.CommonEntity;
 
 /**
@@ -35,19 +35,16 @@ public class DateControl {
 
     private List<MyItemEntity> getMyItemEntity() {
         ArrayList mItemEntities = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 15; i++) {
             mItemEntities.add(new MyItemEntity("频道" + i, MyItemEntity.TYPE_MY));
         }
         return mItemEntities;
     }
 
 
-
-
-
     private List<MyItemEntity> getOtherItemEntity() {
         ArrayList mOtherEntities = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 15; i++) {
             mOtherEntities.add(new MyItemEntity("其他频道" + i, MyItemEntity.TYPE_OTHER));
         }
         return mOtherEntities;
@@ -89,21 +86,21 @@ public class DateControl {
 
     }
 
-    public int getMySize(){
+    public int getMySize() {
         return getItemEntitiesSize(MyItemEntity.TYPE_MY);
     }
 
-    public int getOtherSize(){
+    public int getOtherSize() {
         return getItemEntitiesSize(MyItemEntity.TYPE_OTHER);
     }
 
 
-    private int getItemEntitiesSize(int type){
+    private int getItemEntitiesSize(int type) {
         final List<CommonEntity> all = getAll();
-        int size=0;
+        int size = 0;
         for (CommonEntity en : all) {
-            if(en instanceof MyItemEntity){
-                if(((MyItemEntity) en).getType()==type){
+            if (en instanceof MyItemEntity) {
+                if (((MyItemEntity) en).getType() == type) {
                     size++;
                 }
             }
@@ -112,11 +109,11 @@ public class DateControl {
     }
 
 
-    public ArrayList<MyItemEntity> getItemEntities(int type){
+    public ArrayList<MyItemEntity> getItemEntities(int type) {
         ArrayList<MyItemEntity> arr = new ArrayList<>();
         for (CommonEntity en : getAll()) {
-            if(en instanceof MyItemEntity){
-                if(((MyItemEntity) en).getType()==type){
+            if (en instanceof MyItemEntity) {
+                if (((MyItemEntity) en).getType() == type) {
                     arr.add((MyItemEntity) en);
                 }
             }
@@ -124,6 +121,10 @@ public class DateControl {
         return arr;
     }
 
+    public void clear() {
+        allEntities = null;
+        myTitleEntity = null;
+    }
 
 
 }

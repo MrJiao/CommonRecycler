@@ -9,10 +9,13 @@ import android.util.Log;
 
 import java.util.List;
 
-import jackson.com.commonrecycler.entity.MyItemEntity;
-import jackson.com.commonrecycler.entity.MyTitleEntity;
+import jackson.com.commonrecycler.L;
+import jackson.com.commonrecycler.dragrecycler.entity.MyItemEntity;
+import jackson.com.commonrecycler.dragrecycler.entity.MyTitleEntity;
 import jackson.com.commonrecyclerlib.CommonAdapter;
 import jackson.com.commonrecyclerlib.CommonEntity;
+
+import static java.security.AccessController.getContext;
 
 
 /**
@@ -24,6 +27,7 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
 
     private final CommonAdapter adapter;
     private int mySize;
+    private int type;
 
     public MyItemTouchHelperCallBack(CommonAdapter adapter){
         this.adapter = adapter;
@@ -71,21 +75,12 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     @Override
     public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
         super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
-        //if(toPos==0)return;
         CommonAdapter adapter = (CommonAdapter) recyclerView.getAdapter();
         List<CommonEntity> entities = adapter.getEntities();
         CommonEntity en = entities.remove(fromPos);
-        //if(toPos)
-        Log.e("onMoved",toPos+"");
-        if(toPos==mySize+1){
-            MyItemEntity myEn = (MyItemEntity) en;
-            if(((MyItemEntity) en).getType()==MyItemEntity.TYPE_OTHER){
-                myEn.setType(MyItemEntity.TYPE_MY);
-                myEn.setEdit(true);
-            }else {
-                myEn.setType(MyItemEntity.TYPE_OTHER);
-            }
-        }
+        L.e("onMoved",toPos+"");
+        MyItemEntity myEn = (MyItemEntity) en;
+
         entities.add(toPos,en);
         adapter.notifyItemMoved(fromPos,toPos);
     }
@@ -112,6 +107,8 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
         super.onSelectedChanged(viewHolder, actionState);
         if(actionState== ItemTouchHelper.ACTION_STATE_DRAG){
             mySize = DateControl.getInstance().getMySize();
+            MyItemEntity myEn = (MyItemEntity) DateControl.getInstance().getAll().get(viewHolder.getLayoutPosition());
+            type = myEn.getType();
         }
     }
 
@@ -123,8 +120,31 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
-        recyclerView.getAdapter().notifyItemChanged(viewHolder.getLayoutPosition());
-       // viewHolder.itemView.setBackgroundColor(Color.WHITE);
+        int position = viewHolder.getLayoutPosition();
+        DragRecyclerActivity a= (DragRecyclerActivity) recyclerView.getContext();
+        boolean isEdit = a.isEdit();
+        L.e("clearView","position",position,"type",type,"mySize+1",mySize+1);
+
+        MyItemEntity myEn = (MyItemEntity) DateControl.getInstance().getAll().get(viewHolder.getLayoutPosition());
+        myEn.setEdit(isEdit);
+        if(type==MyItemEntity.TYPE_MY){
+            if(position==mySize+1) {
+                myEn.setType(MyItemEntity.TYPE_OTHER);
+            }
+        }
+        if(type==MyItemEntity.TYPE_OTHER) {
+            if(position==mySize+1) {
+                myEn.setType(MyItemEntity.TYPE_MY);
+            }
+        }
+        if(position<mySize+1){
+            myEn.setType(MyItemEntity.TYPE_MY);
+        }
+        if(position>mySize+1){
+            myEn.setType(MyItemEntity.TYPE_OTHER);
+        }
+
+        recyclerView.getAdapter().notifyItemChanged(position);
     }
 
     /**
