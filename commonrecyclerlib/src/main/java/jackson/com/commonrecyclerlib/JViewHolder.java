@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +52,11 @@ public class JViewHolder extends RecyclerView.ViewHolder {
     public void setText(int id, String msg) {
         TextView tv = get(id);
         tv.setText(msg);
+    }
+
+    public void setButtonText(int id,String msg){
+        Button btn = get(id);
+        btn.setText(msg);
     }
 
     public void setTextColor(int id, int color) {
@@ -125,7 +131,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
         @Override
         public void onClick(View view) {
-            onClickListener.onClick(entities.get(getLayoutPosition()),getLayoutPosition(), JViewHolder.this);
+            onClickListener.onClick(entities.get(getLayoutPosition()),getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
         }
     }
 
@@ -140,7 +146,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
         @Override
         public boolean onLongClick(View view) {
-            return listener.onLongClick(entities.get(getLayoutPosition()), getLayoutPosition(), JViewHolder.this);
+            return listener.onLongClick(entities.get(getLayoutPosition()), getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
 
         }
     }
@@ -160,7 +166,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
             if (MotionEventCompat.getActionMasked(motionEvent) == MotionEvent.ACTION_DOWN) {
                 entity = entities.get(getLayoutPosition());
             }
-            return onTouchListener.onTouch(entity, JViewHolder.this, view, motionEvent);
+            return onTouchListener.onTouch(entity, JViewHolder.this, view, motionEvent,getItemViewType());
         }
     }
 }

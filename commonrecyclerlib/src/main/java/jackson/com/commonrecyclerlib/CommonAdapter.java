@@ -104,15 +104,15 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
     }
 
     public interface  OnClickListener  {
-          void onClick(CommonEntity entity, int position, JViewHolder holder);
+          void onClick(CommonEntity entity, int position, JViewHolder holder, int itemViewType, View view);
     }
 
-    public abstract static class OnLongClickListener {
-        protected abstract boolean onLongClick(CommonEntity entity,int position,JViewHolder holder);
+    public  interface OnLongClickListener {
+         boolean onLongClick(CommonEntity entity, int position, JViewHolder holder, int itemViewType, View view);
     }
 
-    public abstract static class OnTouchListener {
-        protected abstract boolean onTouch(CommonEntity entity,JViewHolder holder,View touchView, MotionEvent event);
+    public interface OnTouchListener {
+         boolean onTouch(CommonEntity entity, JViewHolder holder, View touchView, MotionEvent event, int itemViewType);
     }
 
     public List<CommonEntity> getEntities(){

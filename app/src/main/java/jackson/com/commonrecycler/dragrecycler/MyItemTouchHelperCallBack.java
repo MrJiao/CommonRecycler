@@ -68,6 +68,8 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     @Override
     public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
         super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+        if(toPos==0)return;
+
         CommonAdapter adapter = (CommonAdapter) recyclerView.getAdapter();
         List<CommonEntity> entities = adapter.getEntities();
         entities.add(toPos,entities.remove(fromPos));

@@ -35,7 +35,7 @@
         android:textSize="13sp"
         android:background="@drawable/bg_btn"
         android:textColor="@color/red_500"
-        android:text="@string/edit"/>
+        android:text="编辑"/>
 
     <View
         android:layout_width="match_parent"

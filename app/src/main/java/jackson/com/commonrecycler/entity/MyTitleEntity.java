@@ -11,8 +11,12 @@ import jackson.com.commonrecyclerlib.JViewHolder;
  * Details :
  */
 public class MyTitleEntity extends CommonEntity {
-    private static final int VIEW_TYPE =  1;
+    public static final int VIEW_TYPE =  1;
+    private boolean isEdit;
 
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
 
     @Override
     public int getType() {
@@ -26,6 +30,6 @@ public class MyTitleEntity extends CommonEntity {
 
     @Override
     protected void setView(JViewHolder holder, int position) {
-
+        holder.setText(R.id.tv_btn_edit,isEdit?"完成":"编辑");
     }
 }

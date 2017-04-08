@@ -17,18 +17,13 @@ public class NetControl {
 
     //模拟网络获取数据并转换成相应实体bean
     public static ArrayList<CommonEntity> getEntity() {
+        DateControl instance = DateControl.getInstance();
         ArrayList<CommonEntity> arrayList = new ArrayList();
-        arrayList.add(new MyTitleEntity());
-        for (int i = 0; i < 50; i++) {
-            if(i<25){
-                arrayList.add(new MyItemEntity("频道"+i));
-            }else if(i==25){
-                arrayList.add(new OtherTitleEntity());
-            }else {
-                arrayList.add(new OtherItemEntity("其他频道"+i));
-            }
-        }
-
+        arrayList.add(instance.getMyTitleEntitiy());
+        arrayList.addAll(instance.getMyItemEntity());
+        arrayList.add(new OtherTitleEntity());
+        arrayList.addAll(DateControl.getInstance().getOtherItemEntity());
         return arrayList;
     }
+
 }
