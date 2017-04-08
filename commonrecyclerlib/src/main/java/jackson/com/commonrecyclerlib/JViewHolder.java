@@ -84,7 +84,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
 
 
-    public void setViewTypeListeners(ListenerControl.ViewTypeListeners viewTypeListeners) {
+    void setViewTypeListeners(ListenerControl.ViewTypeListeners viewTypeListeners) {
         if(viewTypeListeners==null)return;
         setOnClickListeners(viewTypeListeners);
         setOnLongClickListeners(viewTypeListeners);
