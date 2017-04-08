@@ -95,7 +95,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         SparseArray<CommonAdapter.OnLongClickListener> onClickListeners = viewTypeListeners.getOnLongClickListeners();
         if(onClickListeners!=null){
             for(int i=0;i<onClickListeners.size();i++){
-                int id = onClickListeners.keyAt(0);
+                int id = onClickListeners.keyAt(i);
                 getClickView(id).setOnLongClickListener(new OnLongClickListener(onClickListeners.get(id)));
             }
         }
@@ -105,7 +105,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         SparseArray<CommonAdapter.OnClickListener> onClickListeners = viewTypeListeners.getOnClickListeners();
         if(onClickListeners!=null){
             for(int i=0;i<onClickListeners.size();i++){
-                int id = onClickListeners.keyAt(0);
+                int id = onClickListeners.keyAt(i);
                 getClickView(id).setOnClickListener(new OnClickListener(onClickListeners.get(id)));
             }
         }
@@ -115,7 +115,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         SparseArray<CommonAdapter.OnTouchListener> onTouchListener = viewTypeListeners.getOnTouchListeners();
         if(onTouchListener!=null){
             for(int i=0;i<onTouchListener.size();i++){
-                int id = onTouchListener.keyAt(0);
+                int id = onTouchListener.keyAt(i);
                 getClickView(id).setOnTouchListener(new OnTouchListener(onTouchListener.get(id)));
             }
         }

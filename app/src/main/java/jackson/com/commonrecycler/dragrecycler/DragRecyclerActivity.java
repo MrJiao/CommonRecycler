@@ -1,10 +1,10 @@
 package jackson.com.commonrecycler.dragrecycler;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MotionEventCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,6 @@ import java.util.List;
 import jackson.com.commonrecycler.R;
 import jackson.com.commonrecycler.entity.MyItemEntity;
 import jackson.com.commonrecycler.entity.MyTitleEntity;
-import jackson.com.commonrecycler.entity.OtherItemEntity;
 import jackson.com.commonrecyclerlib.CommonAdapter;
 import jackson.com.commonrecyclerlib.CommonEntity;
 import jackson.com.commonrecyclerlib.JViewHolder;
@@ -28,14 +27,13 @@ import jackson.com.commonrecyclerlib.JViewHolder;
  * Version : 1
  * Details :
  */
-public class DragRecyclerActivity extends AppCompatActivity implements CommonAdapter.OnClickListener, CommonAdapter.OnLongClickListener {
+public class DragRecyclerActivity extends Activity implements CommonAdapter.OnClickListener, CommonAdapter.OnLongClickListener {
 
     private RecyclerView mRecyclerView;
     private CommonAdapter commonAdapter;
     private ItemTouchHelper itemTouchHelper;
     private GridLayoutManager gridLayoutManager;
     private boolean isEdit;
-
 
     public static void start(Context c){
         Intent intent = new Intent(c, DragRecyclerActivity.class);
@@ -51,12 +49,8 @@ public class DragRecyclerActivity extends AppCompatActivity implements CommonAda
         initListener();
     }
 
-
-
-
     private void initRecyclerView() {
         gridLayoutManager = new GridLayoutManager(this, 4);
-
         //设置布局管理器
         mRecyclerView.setLayoutManager(gridLayoutManager);
         //设置adapter
@@ -69,31 +63,36 @@ public class DragRecyclerActivity extends AppCompatActivity implements CommonAda
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
         //添加分割线
        // mRecyclerView.addItemDecoration(new MyItemDecoration());
-
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 int viewType = commonAdapter.getItemViewType(position);
-                return viewType == MyItemEntity.VIEW_TYPE || viewType == OtherItemEntity.VIEW_TYPE ? 1 : 4;
+                return viewType == MyItemEntity.VIEW_TYPE ? 1 : 4;
             }
         });
 
     }
 
     private void initListener() {
-        commonAdapter.setOnTouchListener(MyItemEntity.VIEW_TYPE,new OnTouchListener());
-        commonAdapter.setOnClickListener(OtherItemEntity.VIEW_TYPE, this);
+        commonAdapter.setOnTouchListener(R.id.tv,MyItemEntity.VIEW_TYPE,new OnTouchListener());
         commonAdapter.setOnClickListener(R.id.tv_btn_edit,MyTitleEntity.VIEW_TYPE,this);
         commonAdapter.setOnLongClickListener(MyItemEntity.VIEW_TYPE,this);
+        commonAdapter.setOnClickListener(R.id.img_edit,MyItemEntity.VIEW_TYPE, this);
+        commonAdapter.setOnClickListener(MyItemEntity.VIEW_TYPE,this);
     }
 
     @Override
     public void onClick(CommonEntity entity, int position, JViewHolder holder, int itemViewType, View view) {
-        if(itemViewType==OtherItemEntity.VIEW_TYPE){
-            //commonAdapter.itemMoved(position, 0);
-            OtherItemEntity en = (OtherItemEntity)entity;
-            Toast.makeText(this,"position:"+position+" msg:"+en.toString(),Toast.LENGTH_SHORT).show();
+        if(itemViewType == MyItemEntity.VIEW_TYPE && !isEdit){//非编辑状态下的item点击监听
+            changePindao((MyItemEntity) entity);
+            return;
         }
+
+        if(itemViewType==MyItemEntity.VIEW_TYPE && view.getId()==R.id.img_edit && isEdit){
+            changePindao((MyItemEntity) entity);
+            return;
+        }
+
         if(itemViewType==MyTitleEntity.VIEW_TYPE && view.getId() == R.id.tv_btn_edit){
             isEdit =! isEdit;
             setEditState(isEdit);
@@ -102,13 +101,32 @@ public class DragRecyclerActivity extends AppCompatActivity implements CommonAda
             }else {
                 holder.setText(R.id.tv_btn_edit,"编辑");
             }
+            return;
+        }
+    }
+
+    private void changePindao(MyItemEntity en) {
+        DateControl instance = DateControl.getInstance();
+        if(en.getType()==MyItemEntity.TYPE_MY){
+            int from = instance.getAll().indexOf(en);
+            en.setEdit(false);
+            instance.moveMy2Other(en);
+            int to = instance.getMySize()+2;
+            commonAdapter.notifyItemMoved(from,to);
+            commonAdapter.notifyItemChanged(to);
+        }else {
+            int from = instance.getAll().indexOf(en);
+            int to = instance.getMySize()+1;
+            instance.moveOhter2My(en);
+            commonAdapter.notifyItemMoved(from,to);
+            commonAdapter.notifyItemChanged(to);
         }
     }
 
     private void setEditState(boolean isEdit){
         this.isEdit = isEdit;
-        List<MyItemEntity> myItemEntity = DateControl.getInstance().getMyItemEntity();
-        MyTitleEntity myTitleEntitiy = DateControl.getInstance().getMyTitleEntitiy();
+        List<MyItemEntity> myItemEntity = DateControl.getInstance().getItemEntities(MyItemEntity.TYPE_MY);
+        MyTitleEntity myTitleEntitiy = DateControl.getInstance().getMyTitleEntity();
         myTitleEntitiy.setEdit(isEdit);
         for (MyItemEntity en:myItemEntity) {
             en.setEdit(isEdit);
@@ -119,10 +137,11 @@ public class DragRecyclerActivity extends AppCompatActivity implements CommonAda
 
     @Override
     public boolean onLongClick(CommonEntity entity, int position, JViewHolder holder, int itemViewType, View view) {
+        if(isEdit)return false;
         if(itemViewType==MyItemEntity.VIEW_TYPE){
             isEdit = true;
             setEditState(isEdit);
-            itemTouchHelper.startDrag(holder);
+            //itemTouchHelper.startDrag(holder);
             return true;
         }
 
@@ -138,12 +157,6 @@ public class DragRecyclerActivity extends AppCompatActivity implements CommonAda
             switch (MotionEventCompat.getActionMasked(event)) {
                 case MotionEvent.ACTION_DOWN:
                     itemTouchHelper.startDrag(holder);
-                    break;
-                case MotionEvent.ACTION_MOVE:
-
-                    break;
-                case MotionEvent.ACTION_CANCEL:
-                case MotionEvent.ACTION_UP:
                     break;
             }
             return true;

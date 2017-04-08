@@ -20,7 +20,7 @@ public class OtherItemEntity extends CommonEntity {
     }
 
     @Override
-    public int getType() {
+    public int getViewType() {
         return VIEW_TYPE;
     }
 

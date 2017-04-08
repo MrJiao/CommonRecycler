@@ -37,7 +37,7 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
     @Override
     public int getItemViewType(int position) {
         getItemViewTypePosition = position;
-        return mEntities.get(position).getType();
+        return mEntities.get(position).getViewType();
     }
 
     @Override

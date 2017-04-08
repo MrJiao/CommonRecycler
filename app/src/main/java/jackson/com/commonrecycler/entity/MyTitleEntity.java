@@ -19,7 +19,7 @@ public class MyTitleEntity extends CommonEntity {
     }
 
     @Override
-    public int getType() {
+    public int getViewType() {
         return VIEW_TYPE;
     }
 

@@ -5,10 +5,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 
 import java.util.List;
 
 import jackson.com.commonrecycler.entity.MyItemEntity;
+import jackson.com.commonrecycler.entity.MyTitleEntity;
 import jackson.com.commonrecyclerlib.CommonAdapter;
 import jackson.com.commonrecyclerlib.CommonEntity;
 
@@ -21,6 +23,7 @@ import jackson.com.commonrecyclerlib.CommonEntity;
 public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
 
     private final CommonAdapter adapter;
+    private int mySize;
 
     public MyItemTouchHelperCallBack(CommonAdapter adapter){
         this.adapter = adapter;
@@ -53,7 +56,7 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
      */
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return  viewHolder.getItemViewType()== MyItemEntity.VIEW_TYPE;
+        return  viewHolder.getItemViewType()== MyItemEntity.VIEW_TYPE && target.getItemViewType()!= MyTitleEntity.VIEW_TYPE;
     }
 
     /**
@@ -68,11 +71,22 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     @Override
     public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
         super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
-        if(toPos==0)return;
-
+        //if(toPos==0)return;
         CommonAdapter adapter = (CommonAdapter) recyclerView.getAdapter();
         List<CommonEntity> entities = adapter.getEntities();
-        entities.add(toPos,entities.remove(fromPos));
+        CommonEntity en = entities.remove(fromPos);
+        //if(toPos)
+        Log.e("onMoved",toPos+"");
+        if(toPos==mySize+1){
+            MyItemEntity myEn = (MyItemEntity) en;
+            if(((MyItemEntity) en).getType()==MyItemEntity.TYPE_OTHER){
+                myEn.setType(MyItemEntity.TYPE_MY);
+                myEn.setEdit(true);
+            }else {
+                myEn.setType(MyItemEntity.TYPE_OTHER);
+            }
+        }
+        entities.add(toPos,en);
         adapter.notifyItemMoved(fromPos,toPos);
     }
 
@@ -97,7 +111,7 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         super.onSelectedChanged(viewHolder, actionState);
         if(actionState== ItemTouchHelper.ACTION_STATE_DRAG){
-            //viewHolder.itemView.setBackgroundColor(Color.LTGRAY);
+            mySize = DateControl.getInstance().getMySize();
         }
     }
 
@@ -109,6 +123,7 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
+        recyclerView.getAdapter().notifyItemChanged(viewHolder.getLayoutPosition());
        // viewHolder.itemView.setBackgroundColor(Color.WHITE);
     }
 

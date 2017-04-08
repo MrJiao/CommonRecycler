@@ -15,8 +15,11 @@ import jackson.com.commonrecyclerlib.JViewHolder;
 public class MyItemEntity extends CommonEntity {
     public static final int VIEW_TYPE =  0;
 
+    public static final int TYPE_MY=1;//我的频道
+    public static final int TYPE_OTHER=2;//其他频道;
     private boolean isEdit;
     private String msg;
+    private int type;
 
     public boolean isEdit() {
         return isEdit;
@@ -26,12 +29,13 @@ public class MyItemEntity extends CommonEntity {
         isEdit = edit;
     }
 
-    public MyItemEntity(String msg){
+    public MyItemEntity(String msg,int type){
         this.msg = msg;
+        this.type = type;
     }
 
     @Override
-    public int getType() {
+    public int getViewType() {
         return VIEW_TYPE;
     }
 
@@ -42,12 +46,20 @@ public class MyItemEntity extends CommonEntity {
 
     @Override
     protected void setView(JViewHolder holder, int position) {
-        holder.get(R.id.img_edit).setVisibility(isEdit? View.VISIBLE:View.INVISIBLE);
+        holder.get(R.id.img_edit).setVisibility(isEdit&& type == TYPE_MY? View.VISIBLE:View.INVISIBLE);
         holder.setText(R.id.tv,msg);
     }
 
     @Override
     public String toString() {
         return msg;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getType(){
+        return type;
     }
 }

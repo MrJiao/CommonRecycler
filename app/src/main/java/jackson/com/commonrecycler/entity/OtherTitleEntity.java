@@ -16,7 +16,7 @@ public class OtherTitleEntity extends CommonEntity {
         return R.layout.item_my_channel_header2;
     }
 
-    public int getType() {
+    public int getViewType() {
         return VIEW_TYPE;
     }
 

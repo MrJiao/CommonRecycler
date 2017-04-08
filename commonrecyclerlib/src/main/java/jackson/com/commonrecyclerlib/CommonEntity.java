@@ -8,7 +8,7 @@ package jackson.com.commonrecyclerlib;
 public abstract class CommonEntity {
     public static final int ALL_TYPE =0;
 
-    public int getType(){
+    public int getViewType(){
         return ALL_TYPE;
     }
 
