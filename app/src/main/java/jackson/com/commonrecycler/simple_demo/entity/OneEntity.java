@@ -10,6 +10,8 @@ import jackson.com.commonrecyclerlib.JViewHolder;
 
 public class OneEntity extends CommonEntity {
     public static final int VIEW_TYPE = 0;
+    public String title;
+
     @Override
     public int getViewType() {
         return VIEW_TYPE;
@@ -22,6 +24,6 @@ public class OneEntity extends CommonEntity {
 
     @Override
     protected void setView(JViewHolder holder, int position) {
-
+        holder.setText(R.id.tv_title,"摧毁一个熊孩子有多难"+position);
     }
 }

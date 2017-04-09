@@ -17,6 +17,7 @@
         </activity>
 
         <activity android:name=".dragrecycler.DragRecyclerActivity"/>
+        <activity android:name=".simple_demo.DemoActivity"/>
     </application>
 
 

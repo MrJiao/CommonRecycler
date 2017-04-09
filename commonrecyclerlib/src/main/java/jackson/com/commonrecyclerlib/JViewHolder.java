@@ -131,7 +131,9 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
         @Override
         public void onClick(View view) {
-            onClickListener.onClick(entities.get(getLayoutPosition()),getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
+            final int position = getLayoutPosition();
+            if(position<0)return;
+            onClickListener.onClick(entities.get(position),getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
         }
     }
 

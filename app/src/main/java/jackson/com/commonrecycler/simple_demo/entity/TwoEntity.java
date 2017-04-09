@@ -11,6 +11,7 @@ import jackson.com.commonrecyclerlib.JViewHolder;
 public class TwoEntity extends CommonEntity {
 
     public static final int VIEW_TYPE = 1;
+    public String msg ;
 
     @Override
     public int getViewType() {
@@ -24,6 +25,6 @@ public class TwoEntity extends CommonEntity {
 
     @Override
     protected void setView(JViewHolder holder, int position) {
-
+        holder.setText(R.id.tv,msg);
     }
 }

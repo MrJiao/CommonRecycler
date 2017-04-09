@@ -14,5 +14,12 @@
         android:id="@+id/btn_drag_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DragRecyclerActivity" />
+        android:text="DragRecycler_Activity" />
+
+
+    <Button
+        android:id="@+id/btn_demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Demo_ACTIVITY" />
 </LinearLayout>

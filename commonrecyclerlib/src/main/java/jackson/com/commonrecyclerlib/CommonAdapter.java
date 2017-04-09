@@ -99,7 +99,7 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
         getListenerControl().setOnTouchListener(id,viewType,listener);
     }
 
-    public void setEntities(ArrayList<CommonEntity> entities) {
+    public void setEntities(List<CommonEntity> entities) {
         this.mEntities = entities;
     }
 

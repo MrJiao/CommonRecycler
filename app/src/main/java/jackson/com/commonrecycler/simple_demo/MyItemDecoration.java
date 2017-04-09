@@ -1,4 +1,4 @@
-package jackson.com.commonrecycler.dragrecycler;
+package jackson.com.commonrecycler.simple_demo;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -24,7 +24,7 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        outRect.set(0, 0, 0, 0);
+        outRect.set(0, 15, 0,0);
     }
 
 }
