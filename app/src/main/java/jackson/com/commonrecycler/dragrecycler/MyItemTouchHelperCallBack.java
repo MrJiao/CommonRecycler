@@ -79,8 +79,6 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
         List<CommonEntity> entities = adapter.getEntities();
         CommonEntity en = entities.remove(fromPos);
         L.e("onMoved",toPos+"");
-        MyItemEntity myEn = (MyItemEntity) en;
-
         entities.add(toPos,en);
         adapter.notifyItemMoved(fromPos,toPos);
     }
@@ -145,35 +143,6 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
         }
 
         recyclerView.getAdapter().notifyItemChanged(position);
-    }
-
-    /**
-     * @param c
-     * @param recyclerView
-     * @param viewHolder
-     * @param dX
-     * @param dY
-     * @param actionState
-     * @param isCurrentlyActive
-     */
-    @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        //viewHolder.itemView.setAlpha(1- Math.abs(dX)/screenwidth);
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-    }
-
-    /**
-     * @param c
-     * @param recyclerView
-     * @param viewHolder
-     * @param dX
-     * @param dY
-     * @param actionState
-     * @param isCurrentlyActive
-     */
-    @Override
-    public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override

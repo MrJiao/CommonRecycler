@@ -39,12 +39,6 @@ public class DemoActivity extends Activity implements CommonAdapter.OnClickListe
     //设置监听器的用法
     private void setOneEntityListener(){
         mCommonAdapter.setOnClickListener(R.id.tv_delete, OneEntity.VIEW_TYPE,this);
-        mCommonAdapter.setOnClickListener(R.id.tv_delete, OneEntity.VIEW_TYPE, new CommonAdapter.OnClickListener() {
-            @Override
-            public void onClick(CommonEntity entity, int position, JViewHolder holder, int itemViewType, View view) {
-
-            }
-        });
     }
 
 

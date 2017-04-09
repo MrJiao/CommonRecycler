@@ -14,18 +14,6 @@ import jackson.com.commonrecyclerlib.CommonEntity;
 
 public class NetControl {
 
-
-
-
-    public List<CommonEntity> get(String url){
-        ArrayList<CommonEntity> arr = new ArrayList<>();
-
-
-
-        return arr;
-    }
-
-
     public static List<CommonEntity> getOneEntity(String url){
         ArrayList<CommonEntity> arr = new ArrayList<>();
         OneEntity oneEntity=null;
@@ -63,6 +51,5 @@ public class NetControl {
         }
         return arr;
     }
-
 
 }
