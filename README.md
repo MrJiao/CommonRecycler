@@ -1,11 +1,10 @@
-﻿#### RecyclerView 万能Adapter
+#### RecyclerView 万能Adapter
 
 
 ### 功能描述
-1. 不需要再写adapter和holder
+1. 以后大家Adapter和Holder都可以不用写了
 2. 提供多点击事件OnClickListener、OnLongClickListener、OnTouchListener，一个item里可以有多个OnClickListener等事件监听
 3. 多种类型多态抽取，代码更简单
-4. 以后大家Adapter和Holder都可以不用写了
 
  
 ### 多点击事件监听实现方式
@@ -13,6 +12,9 @@
 把listener按对应的类型和id存到集合，在holder创建的时候，将对应的listener设置给对应的view。
 
 注意：每一个新的holder都需要一个对应的监听器集合
+
+
+### 使用说明 [点这里](https://github.com/MrJiao/CommonRecycler/blob/master/github_res/%E4%BD%BF%E7%94%A8Demo.md)
 
 
 
@@ -392,7 +394,7 @@ private void initListener() {
 
 可以看出，上面的Item有三种类型，每个Item的View都比较少，没什么逻辑，如果类型增多，就需要增加case块，如果View类型复杂逻辑复杂case块里的代码就是灾难，在这种情况下，最好的办法就是多态，将每一种类型抽成一个子类，父类做好统一工作就好，下面是实现
 
-###图片
+![图片](https://github.com/MrJiao/CommonRecycler/blob/master/github_res/entities.png)
 
 这是一个实现子类，里面自己实现了如何设置view，使用哪一个layout，类型选择。在网络获取json数据后转换成它直接给CommonAdapter就可以了，类型再多也不怕
 
