@@ -43,7 +43,7 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
     @Override
     public JViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = View.inflate(mContext, mEntities.get(getItemViewTypePosition).getLayout(), null);
-        JViewHolder holder = JViewHolder.newInstance(itemView, parent,mEntities);
+        JViewHolder holder = JViewHolder.newInstance(itemView, parent);
         if(listenerControl!=null)
             holder.setViewTypeListeners(listenerControl.getViewTypeListeners(viewType));
 
@@ -52,7 +52,9 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
 
     @Override
     public void onBindViewHolder(JViewHolder holder, int position) {
-        mEntities.get(position).setView(holder,position);
+        final CommonEntity commonEntity = mEntities.get(position);
+        holder.bingEntity(commonEntity);
+        commonEntity.setView(holder,position);
     }
 
     @Override

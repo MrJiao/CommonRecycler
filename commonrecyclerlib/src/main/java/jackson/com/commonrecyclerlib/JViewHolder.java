@@ -21,20 +21,24 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
     private final SparseArray<View> viewSparseArray;
     private final View itemView;
-    private final List<CommonEntity> entities;
+    private CommonEntity entity;
     private final ViewGroup viewGroup;
 
-    public JViewHolder(View itemView, ViewGroup parent, List<CommonEntity> entities) {
+    public JViewHolder(View itemView, ViewGroup parent) {
         super(itemView);
         this.itemView = itemView;
         this.viewSparseArray = new SparseArray<>();
-        this.entities = entities;
         this.viewGroup = parent;
     }
 
-    public static JViewHolder newInstance(View itemView, ViewGroup parent, List<CommonEntity> entities) {
-        return new JViewHolder(itemView,parent, entities);
+    public static JViewHolder newInstance(View itemView, ViewGroup parent) {
+        return new JViewHolder(itemView,parent);
     }
+
+    void bingEntity(CommonEntity entity){
+        this.entity = entity;
+    }
+
 
     public <T extends View> T get(int id) {
         View view = viewSparseArray.get(id);
@@ -137,7 +141,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         public void onClick(View view) {
             final int position = getLayoutPosition();
             if(position<0)return;
-            onClickListener.onClick(entities.get(position),getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
+            onClickListener.onClick(entity,position, JViewHolder.this,getItemViewType(),view);
         }
     }
 
@@ -152,7 +156,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
         @Override
         public boolean onLongClick(View view) {
-            return listener.onLongClick(entities.get(getLayoutPosition()), getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
+            return listener.onLongClick(entity, getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
 
         }
     }
@@ -169,9 +173,6 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (MotionEventCompat.getActionMasked(motionEvent) == MotionEvent.ACTION_DOWN) {
-                entity = entities.get(getLayoutPosition());
-            }
             return onTouchListener.onTouch(entity, JViewHolder.this, view, motionEvent,getItemViewType());
         }
     }
