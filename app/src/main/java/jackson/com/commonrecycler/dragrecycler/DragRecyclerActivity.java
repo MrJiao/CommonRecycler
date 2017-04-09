@@ -136,7 +136,7 @@ public class DragRecyclerActivity extends Activity implements CommonAdapter.OnCl
         for (MyItemEntity en : myItemEntity) {
             en.setEdit(isEdit);
         }
-        commonAdapter.notifyItemRangeChanged(1, DateControl.getInstance().getMySize());
+        commonAdapter.notifyItemRangeChanged(0, DateControl.getInstance().getMySize()+1);
     }
 
 
