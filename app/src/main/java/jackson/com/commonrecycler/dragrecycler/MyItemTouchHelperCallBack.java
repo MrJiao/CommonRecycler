@@ -118,12 +118,12 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
-        int position = viewHolder.getLayoutPosition();
+        final int position = viewHolder.getLayoutPosition();
         DragRecyclerActivity a= (DragRecyclerActivity) recyclerView.getContext();
-        boolean isEdit = a.isEdit();
+        final boolean isEdit = a.isEdit();
         L.e("clearView","position",position,"type",type,"mySize+1",mySize+1);
 
-        MyItemEntity myEn = (MyItemEntity) DateControl.getInstance().getAll().get(viewHolder.getLayoutPosition());
+        final MyItemEntity myEn = (MyItemEntity) DateControl.getInstance().getAll().get(position);
         myEn.setEdit(isEdit);
         if(type==MyItemEntity.TYPE_MY){
             if(position==mySize+1) {
