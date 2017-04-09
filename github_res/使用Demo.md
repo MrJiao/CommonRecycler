@@ -2,6 +2,9 @@
 
 [Demo例子](https://github.com/MrJiao/CommonRecycler/tree/master/app/src/main/java/jackson/com/commonrecycler/simple_demo)
 
+![效果图](https://github.com/MrJiao/CommonRecycler/blob/master/github_res/demo.gif)
+
+
 和RecyclerView使用基本一致，只是Adapter使用CommonAdapter，数据Bean 继承CommonEntity
 
 #  基本使用
