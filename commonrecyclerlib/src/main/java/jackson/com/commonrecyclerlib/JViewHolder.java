@@ -49,24 +49,28 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         return itemView;
     }
 
-    public void setText(int id, String msg) {
+    public JViewHolder setText(int id, String msg) {
         TextView tv = get(id);
         tv.setText(msg);
+        return this;
     }
 
-    public void setButtonText(int id,String msg){
+    public JViewHolder setButtonText(int id,String msg){
         Button btn = get(id);
         btn.setText(msg);
+        return this;
     }
 
-    public void setTextColor(int id, int color) {
+    public JViewHolder setTextColor(int id, int color) {
         TextView view = get(id);
         view.setTextColor(color);
+        return this;
     }
 
-    public void setImage(int id, int imageId) {
+    public JViewHolder setImageResource(int id, int resId) {
         ImageView iv = get(id);
-        iv.setBackgroundResource(imageId);
+        iv.setImageResource(resId);
+        return this;
     }
 
     //返回监听时间的view，如果id 等于 ITEM_VIEW则返回itemView
