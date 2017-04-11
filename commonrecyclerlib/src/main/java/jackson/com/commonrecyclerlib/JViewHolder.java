@@ -77,6 +77,10 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    public CommonEntity getEntity(){
+        return entity;
+    }
+
     //返回监听时间的view，如果id 等于 ITEM_VIEW则返回itemView
     private View getClickView(int id) {
         if (id == ListenerControl.ALL_ID) {
@@ -166,7 +170,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
     private class OnTouchListener implements View.OnTouchListener{
 
         private final CommonAdapter.OnTouchListener onTouchListener;
-        CommonEntity entity = null;
+
         public OnTouchListener(CommonAdapter.OnTouchListener listener){
             onTouchListener = listener;
         }

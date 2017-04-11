@@ -15,4 +15,6 @@ public abstract class CommonEntity {
     protected abstract int getLayout();
 
     protected abstract void setView(JViewHolder holder, int position);
+
+    protected void onRecycled(JViewHolder holder){}
 }

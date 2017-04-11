@@ -62,6 +62,10 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
         return mEntities ==null?0: mEntities.size();
     }
 
+    @Override
+    public void onViewRecycled(JViewHolder holder) {
+        holder.getEntity().onRecycled(holder);
+    }
 
     public void setOnClickListener(OnClickListener listener){
         setOnClickListener(CommonEntity.ALL_TYPE,listener);
