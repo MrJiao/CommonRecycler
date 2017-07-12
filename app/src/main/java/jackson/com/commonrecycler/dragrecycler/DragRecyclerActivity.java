@@ -116,6 +116,7 @@ public class DragRecyclerActivity extends Activity implements CommonAdapter.OnCl
             en.setEdit(isEdit);
             instance.moveMy2Other(en);
             int to = instance.getMySize() + 2;
+            commonAdapter.setEntities(instance.getAll());
             commonAdapter.notifyItemMoved(from, to);
             commonAdapter.notifyItemChanged(to);
         } else {
@@ -123,6 +124,7 @@ public class DragRecyclerActivity extends Activity implements CommonAdapter.OnCl
             int to = instance.getMySize() + 1;
             en.setEdit(isEdit);
             instance.moveOhter2My(en);
+            commonAdapter.setEntities(instance.getAll());
             commonAdapter.notifyItemMoved(from, to);
             commonAdapter.notifyItemChanged(to);
         }

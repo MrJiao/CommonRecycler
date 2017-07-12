@@ -1,11 +1,9 @@
 package jackson.com.commonrecycler.dragrecycler;
 
-import android.graphics.Canvas;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 
 import java.util.List;
 
@@ -14,9 +12,6 @@ import jackson.com.commonrecycler.dragrecycler.entity.MyItemEntity;
 import jackson.com.commonrecycler.dragrecycler.entity.MyTitleEntity;
 import jackson.com.commonrecyclerlib.CommonAdapter;
 import jackson.com.commonrecyclerlib.CommonEntity;
-
-import static java.security.AccessController.getContext;
-
 
 /**
  * Created by Jackson on 2017/4/5.
@@ -122,8 +117,8 @@ public class MyItemTouchHelperCallBack extends ItemTouchHelper.Callback {
         DragRecyclerActivity a= (DragRecyclerActivity) recyclerView.getContext();
         final boolean isEdit = a.isEdit();
         L.e("clearView","position",position,"type",type,"mySize+1",mySize+1);
-
-        final MyItemEntity myEn = (MyItemEntity) DateControl.getInstance().getAll().get(position);
+        CommonAdapter adapter = (CommonAdapter) recyclerView.getAdapter();
+        final MyItemEntity myEn = (MyItemEntity) adapter.getEntities().get(position);
         myEn.setEdit(isEdit);
         if(type==MyItemEntity.TYPE_MY){
             if(position==mySize+1) {

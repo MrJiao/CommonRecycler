@@ -1,6 +1,5 @@
 package jackson.com.commonrecyclerlib;
 
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.MotionEvent;
@@ -19,26 +18,22 @@ import java.util.List;
  */
 public class JViewHolder extends RecyclerView.ViewHolder {
 
-    private final SparseArray<View> viewSparseArray;
-    private final View itemView;
-    private CommonEntity entity;
-    private final ViewGroup viewGroup;
+    private SparseArray<View> viewSparseArray;
+    private View itemView;
+    private ViewGroup viewGroup;
+    private List<? extends CommonEntity> entities;
 
-    public JViewHolder(View itemView, ViewGroup parent) {
+    public JViewHolder(View itemView, ViewGroup parent, List<? extends CommonEntity> entities) {
         super(itemView);
         this.itemView = itemView;
         this.viewSparseArray = new SparseArray<>();
         this.viewGroup = parent;
+        this.entities = entities;
     }
 
-    public static JViewHolder newInstance(View itemView, ViewGroup parent) {
-        return new JViewHolder(itemView,parent);
+    public static JViewHolder newInstance(View itemView, ViewGroup parent, List<? extends CommonEntity> entities) {
+        return new JViewHolder(itemView, parent,entities);
     }
-
-    void bingEntity(CommonEntity entity){
-        this.entity = entity;
-    }
-
 
     public <T extends View> T get(int id) {
         View view = viewSparseArray.get(id);
@@ -59,7 +54,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public JViewHolder setButtonText(int id,String msg){
+    public JViewHolder setButtonText(int id, String msg) {
         Button btn = get(id);
         btn.setText(msg);
         return this;
@@ -77,10 +72,6 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public CommonEntity getEntity(){
-        return entity;
-    }
-
     //返回监听时间的view，如果id 等于 ITEM_VIEW则返回itemView
     private View getClickView(int id) {
         if (id == ListenerControl.ALL_ID) {
@@ -90,14 +81,13 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public ViewGroup getViewGroup(){
+    public ViewGroup getViewGroup() {
         return viewGroup;
     }
 
 
-
     void setViewTypeListeners(ListenerControl.ViewTypeListeners viewTypeListeners) {
-        if(viewTypeListeners==null)return;
+        if (viewTypeListeners == null) return;
         setOnClickListeners(viewTypeListeners);
         setOnLongClickListeners(viewTypeListeners);
         setOnTouchListeners(viewTypeListeners);
@@ -105,8 +95,8 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
     private void setOnLongClickListeners(ListenerControl.ViewTypeListeners viewTypeListeners) {
         SparseArray<CommonAdapter.OnLongClickListener> onClickListeners = viewTypeListeners.getOnLongClickListeners();
-        if(onClickListeners!=null){
-            for(int i=0;i<onClickListeners.size();i++){
+        if (onClickListeners != null) {
+            for (int i = 0; i < onClickListeners.size(); i++) {
                 int id = onClickListeners.keyAt(i);
                 getClickView(id).setOnLongClickListener(new OnLongClickListener(onClickListeners.get(id)));
             }
@@ -115,8 +105,8 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
     private void setOnClickListeners(ListenerControl.ViewTypeListeners viewTypeListeners) {
         SparseArray<CommonAdapter.OnClickListener> onClickListeners = viewTypeListeners.getOnClickListeners();
-        if(onClickListeners!=null){
-            for(int i=0;i<onClickListeners.size();i++){
+        if (onClickListeners != null) {
+            for (int i = 0; i < onClickListeners.size(); i++) {
                 int id = onClickListeners.keyAt(i);
                 getClickView(id).setOnClickListener(new OnClickListener(onClickListeners.get(id)));
             }
@@ -125,59 +115,65 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
     private void setOnTouchListeners(ListenerControl.ViewTypeListeners viewTypeListeners) {
         SparseArray<CommonAdapter.OnTouchListener> onTouchListener = viewTypeListeners.getOnTouchListeners();
-        if(onTouchListener!=null){
-            for(int i=0;i<onTouchListener.size();i++){
+        if (onTouchListener != null) {
+            for (int i = 0; i < onTouchListener.size(); i++) {
                 int id = onTouchListener.keyAt(i);
                 getClickView(id).setOnTouchListener(new OnTouchListener(onTouchListener.get(id)));
             }
         }
     }
 
-    private class OnClickListener implements View.OnClickListener{
+    void bindEntities(List<? extends CommonEntity> entities) {
+        this.entities = entities;
+    }
+
+    private class OnClickListener implements View.OnClickListener {
 
         private final CommonAdapter.OnClickListener onClickListener;
 
-        public OnClickListener(CommonAdapter.OnClickListener listener){
+        public OnClickListener(CommonAdapter.OnClickListener listener) {
             onClickListener = listener;
         }
 
         @Override
         public void onClick(View view) {
             final int position = getLayoutPosition();
-            if(position<0)return;
-            onClickListener.onClick(entity,position, JViewHolder.this,getItemViewType(),view);
+            if (position < 0) return;
+            onClickListener.onClick(entities.get(position), position, JViewHolder.this, getItemViewType(), view);
         }
     }
 
-
-    private class OnLongClickListener implements View.OnLongClickListener{
+    private class OnLongClickListener implements View.OnLongClickListener {
 
         private final CommonAdapter.OnLongClickListener listener;
 
-        public OnLongClickListener(CommonAdapter.OnLongClickListener listener){
+        public OnLongClickListener(CommonAdapter.OnLongClickListener listener) {
             this.listener = listener;
         }
 
         @Override
         public boolean onLongClick(View view) {
-            return listener.onLongClick(entity, getLayoutPosition(), JViewHolder.this,getItemViewType(),view);
+            final int layoutPosition = getLayoutPosition();
+            return listener.onLongClick(entities.get(layoutPosition), layoutPosition, JViewHolder.this, getItemViewType(), view);
 
         }
     }
 
-
-
-    private class OnTouchListener implements View.OnTouchListener{
+    private class OnTouchListener implements View.OnTouchListener {
 
         private final CommonAdapter.OnTouchListener onTouchListener;
+        CommonEntity entity = null;
 
-        public OnTouchListener(CommonAdapter.OnTouchListener listener){
+        public OnTouchListener(CommonAdapter.OnTouchListener listener) {
             onTouchListener = listener;
         }
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            return onTouchListener.onTouch(entity, JViewHolder.this, view, motionEvent,getItemViewType());
+            if(MotionEvent.ACTION_DOWN==motionEvent.getAction()){
+                entity = entities.get(getLayoutPosition());
+            }
+            return onTouchListener.onTouch(entity, JViewHolder.this, view, motionEvent, getItemViewType());
         }
     }
 }

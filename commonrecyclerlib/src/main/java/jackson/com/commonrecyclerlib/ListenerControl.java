@@ -18,6 +18,11 @@ class ListenerControl {
 
 
     public ViewTypeListeners getViewTypeListeners(int viewType) {
+        ViewTypeListeners viewTypeListeners = viewTypeListenersSparseArray.get(viewType);
+        return viewTypeListeners;
+    }
+
+    public ViewTypeListeners createViewTypeListeners(int viewType){
         if (viewTypeListenersSparseArray == null) {
             viewTypeListenersSparseArray = new SparseArray<>(1);
         }
@@ -29,16 +34,16 @@ class ListenerControl {
         return viewTypeListeners;
     }
 
-    public void setOnClickListener(int id, int viewType, CommonAdapter.OnClickListener listener) {
-        getViewTypeListeners(viewType).addOnClickListener(id,listener);
+    void setOnClickListener(int id, int viewType, CommonAdapter.OnClickListener listener) {
+        createViewTypeListeners(viewType).addOnClickListener(id,listener);
     }
 
-    public void setOnLongClickListener(int id, int viewType, CommonAdapter.OnLongClickListener listener) {
-        getViewTypeListeners(viewType).addOnLongClickListener(id,listener);
+    void setOnLongClickListener(int id, int viewType, CommonAdapter.OnLongClickListener listener) {
+        createViewTypeListeners(viewType).addOnLongClickListener(id,listener);
     }
 
-    public void setOnTouchListener(int id, int viewType, CommonAdapter.OnTouchListener listener) {
-        getViewTypeListeners(viewType).addOnTouchListener(id,listener);
+    void setOnTouchListener(int id, int viewType, CommonAdapter.OnTouchListener listener) {
+        createViewTypeListeners(viewType).addOnTouchListener(id,listener);
     }
 
     static class ViewTypeListeners {
@@ -56,19 +61,23 @@ class ListenerControl {
         }
 
         void addOnClickListener(int id, CommonAdapter.OnClickListener listener) {
-            getOnClickListeners().put(id, listener);
+            createOnClickListeners().put(id, listener);
         }
 
         void addOnLongClickListener(int id, CommonAdapter.OnLongClickListener listener) {
 
-            getOnLongClickListeners().put(id, listener);
+            createOnLongClickListeners().put(id, listener);
         }
 
         void addOnTouchListener(int id, CommonAdapter.OnTouchListener listener) {
-            getOnTouchListeners().put(id, listener);
+            createOnTouchListeners().put(id, listener);
         }
 
         public SparseArray<CommonAdapter.OnClickListener> getOnClickListeners(){
+            return onClickListenerArray;
+        }
+
+        private SparseArray<CommonAdapter.OnClickListener> createOnClickListeners(){
             if (onClickListenerArray == null) {
                 onClickListenerArray = new SparseArray<>(1);
             }
@@ -76,6 +85,10 @@ class ListenerControl {
         }
 
         public SparseArray<CommonAdapter.OnLongClickListener> getOnLongClickListeners() {
+            return onLongClickListenerArray;
+        }
+
+        private SparseArray<CommonAdapter.OnLongClickListener> createOnLongClickListeners() {
             if (onLongClickListenerArray == null) {
                 onLongClickListenerArray = new SparseArray<>(1);
             }
@@ -83,11 +96,16 @@ class ListenerControl {
         }
 
         public SparseArray<CommonAdapter.OnTouchListener> getOnTouchListeners() {
+            return onTouchListenerArray;
+        }
+
+        private SparseArray<CommonAdapter.OnTouchListener> createOnTouchListeners(){
             if (onTouchListenerArray == null) {
                 onTouchListenerArray = new SparseArray<>(1);
             }
             return onTouchListenerArray;
         }
+
     }
 
 
