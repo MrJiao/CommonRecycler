@@ -24,4 +24,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':commonrecyclerlib')
     compile 'com.android.support:appcompat-v7:23.+'
+    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
 }

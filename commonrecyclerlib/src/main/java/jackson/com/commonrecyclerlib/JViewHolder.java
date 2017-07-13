@@ -72,7 +72,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    //返回监听时间的view，如果id 等于 ITEM_VIEW则返回itemView
+    //返回监听事件的view，如果id 等于 ITEM_VIEW则返回itemView
     private View getClickView(int id) {
         if (id == ListenerControl.ALL_ID) {
             return itemView;

@@ -55,10 +55,10 @@ public class DemoActivity extends Activity implements CommonAdapter.OnClickListe
     public void onClick(View v) {
         if(v.getId()==R.id.btn_change){
             if(!isChange){
-                mCommonAdapter.setEntities(NetControl.getOneEntity("http://url"));
+                mCommonAdapter.setEntities(NetControl.getOneEntity("http://url1"));
                 setOneEntityListener();
             }else {
-                mCommonAdapter.setEntities(NetControl.getAllEntity("http://url"));
+                mCommonAdapter.setEntities(NetControl.getAllEntity("http://url2"));
             }
             mCommonAdapter.notifyDataSetChanged();
             isChange= !isChange;
