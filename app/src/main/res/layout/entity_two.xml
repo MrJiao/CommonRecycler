@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="165dp"
-    app:cardCornerRadius="5dp">
+    app:cardElevation="1dp"
+    app:cardCornerRadius="1dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

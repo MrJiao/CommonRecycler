@@ -74,7 +74,7 @@ public class JViewHolder extends RecyclerView.ViewHolder {
 
     //返回监听事件的view，如果id 等于 ITEM_VIEW则返回itemView
     private View getClickView(int id) {
-        if (id == ListenerControl.ALL_ID) {
+        if (id == ListenerControl.ITEM_VIEW_ID) {
             return itemView;
         } else {
             return get(id);

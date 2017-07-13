@@ -9,7 +9,7 @@ import android.util.SparseArray;
  */
 class ListenerControl {
 
-    public static final int ALL_ID = -1;
+    public static final int ITEM_VIEW_ID = -1;
     private SparseArray<ViewTypeListeners> viewTypeListenersSparseArray;
 
     public static ListenerControl newInstance() {

@@ -69,9 +69,9 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
         return mEntities ==null?0: mEntities.size();
     }
 
-    public void setEntities(List<CommonEntity> entities) {
+    public void setEntities(List<? extends CommonEntity> entities) {
         if(entities != null){
-            mEntities = entities;
+            mEntities = (List<CommonEntity>) entities;
         }
     }
 
@@ -89,7 +89,7 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
     }
 
     public void setOnClickListener(int viewType,OnClickListener listener){
-        setOnClickListener(ListenerControl.ALL_ID,viewType,listener);
+        setOnClickListener(ListenerControl.ITEM_VIEW_ID,viewType,listener);
     }
 
     public void setOnClickListener(int id,int viewType,OnClickListener listener){
@@ -101,7 +101,7 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
     }
 
     public void setOnLongClickListener(int viewType,OnLongClickListener listener){
-        setOnLongClickListener(ListenerControl.ALL_ID,viewType,listener);
+        setOnLongClickListener(ListenerControl.ITEM_VIEW_ID,viewType,listener);
     }
 
     public void setOnLongClickListener(int id,int viewType,OnLongClickListener listener){
@@ -113,7 +113,7 @@ public class CommonAdapter extends RecyclerView.Adapter<JViewHolder> {
     }
 
     public void setOnTouchListener(int viewType,OnTouchListener listener){
-        setOnTouchListener(ListenerControl.ALL_ID,viewType,listener);
+        setOnTouchListener(ListenerControl.ITEM_VIEW_ID,viewType,listener);
     }
 
     public void setOnTouchListener(int id,int viewType,OnTouchListener listener){
